@@ -13,9 +13,8 @@
 </head>
 <body>
 <div id="surveyContainer"></div>
+<script type="text/javascript" src="js/survey.js"></script>
 <script type="application/javascript">
-    var surveyJSON = {title:"The best survey ever",completedHtml:"Thanks. I am Pheobe, is it not awesome???",pages:[{name:"short consent",elements:[{type:"boolean",name:"Consent",title:"Consent",isRequired:true,titleLocation:"hidden",label:"This research is about ..... All data will be collected anonymously.\nI hereby confirm I'm above 13 and I agree to participate in this research voluntarily"}]},{name:"wooo-first",elements:[{type:"html",name:"wooo",html:"<div id=\"wooo_first\"></div>"}]},{name:"wooo-second",elements:[{type:"html",name:"question1",html:"<div id=\"wooo_second\"></div>"}]},{name:"long consent",elements:[{type:"text",name:"name"}]},{name:"personal data"}],showQuestionNumbers:"off",showProgressBar:"top",goNextPageAutomatic:true}
-
     Survey.Survey.cssType = "bootstrap";
     $("#surveyContainer").Survey({
         model: new Survey.Model(surveyJSON),
