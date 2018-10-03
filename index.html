@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/survey.jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <title>EVERYTHING</title>
+</head>
+<body>
+<div id="surveyContainer"></div>
+<script type="application/javascript">
+    var surveyJSON = {title:"The best survey ever",completedHtml:"Thanks. I am Pheobe, is it not awesome???",pages:[{name:"short consent",elements:[{type:"boolean",name:"Consent",title:"Consent",isRequired:true,titleLocation:"hidden",label:"This research is about ..... All data will be collected anonymously.\nI hereby confirm I'm above 13 and I agree to participate in this research voluntarily"}]},{name:"wooo-first",elements:[{type:"html",name:"wooo",html:"<div id=\"wooo_first\"></div>"}]},{name:"wooo-second",elements:[{type:"html",name:"question1",html:"<div id=\"wooo_second\"></div>"}]},{name:"long consent",elements:[{type:"text",name:"name"}]},{name:"personal data"}],showQuestionNumbers:"off",showProgressBar:"top",goNextPageAutomatic:true}
+
+    Survey.Survey.cssType = "bootstrap";
+    $("#surveyContainer").Survey({
+        model: new Survey.Model(surveyJSON),
+        onCurrentPageChanged: () => {
+            console.log('changed', $('#wooo_first').length)
+        },
+        onAfterRenderPage: () => {
+          console.log('render', $('#wooo_first').length)
+        },
+        onComplete: (survey) => {
+            console.log(JSON.stringify(survey.data)); // todo process
+        }
+    });
+</script>
+</body>
+</html>
