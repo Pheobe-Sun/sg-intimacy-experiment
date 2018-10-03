@@ -87,7 +87,9 @@
             }
         },
         onComplete: (survey) => {
-            saveSurveyData(getSurveyData().entries.push(survey.data));
+            let surveyData = getSurveyData();
+            surveyData.entries.push(survey.data)
+            saveSurveyData(surveyData);
         }
     });
 </script>
