@@ -5,27 +5,76 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+    <title>Pheobe's awesome survey</title>
+
     <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/csound.js"></script>
+    <script src="js/lodash.min.js"></script>
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/survey.jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <title>EVERYTHING</title>
+    <script type="text/javascript" src="js/survey.js"></script>
 </head>
 <body>
 <div id="surveyContainer"></div>
-<script type="text/javascript" src="js/survey.js"></script>
 <script type="application/javascript">
+    let filesNeeded = 0, filesLoaded = 0, waitForFile = (file) => {
+        filesNeeded++;
+        let url = window.location.href.split('/').slice(0, -1).join('/') + '/data/' + file;
+        csound.CopyUrlToLocal(url, file, () => {
+            filesLoaded++
+        });
+    };
+
+    function play(file) {
+        let waitForAll = setInterval(() => {
+            if (filesNeeded && filesNeeded === filesLoaded) {
+                clearInterval(waitForAll);
+                csound.PlayCsd(file);
+            }
+        }, 100);
+    }
+
+    function moduleDidLoad() {
+        waitForFile('dialogue_female.wav');
+        waitForFile('dialogue_male.wav');
+        waitForFile('back_normal.wav');
+        waitForFile('hrtf-44100-left.dat');
+        waitForFile('hrtf-44100-right.dat');
+    }
+
+    function getSurveyData() {
+        return JSON.parse(window.localStorage.sgSurveyData) || {'entries': []}
+    }
+
+    function saveSurveyData(surveyData) {
+        window.localStorage.sgSurveyData = JSON.stringify(surveyData);
+    }
+
     Survey.Survey.cssType = "bootstrap";
+
+    let survey = new Survey.Model(surveyJSON);
     $("#surveyContainer").Survey({
-        model: new Survey.Model(surveyJSON),
-        onCurrentPageChanged: () => {
-            console.log('changed', $('#wooo_first').length)
-        },
+        model: survey,
         onAfterRenderPage: () => {
-          console.log('render', $('#wooo_first').length)
+            csound && csound.Csound && csound.stop();
+            let $wooo = $('#wooo_first, #wooo_second');
+            if ($wooo.length) {
+                let $input = $('<input type="range" min="1" max="100"/>');
+                $input[0].oninput = _.debounce(() => {
+                    console.log($input.val()); // todo call csound and update distance
+                }, 50, {leading: true, trailing: true});
+                $wooo.append($input);
+                let $button = $('<div><button>submit</button></div>');
+                $button.click(() => {
+                    survey.nextPage();
+                });
+                $wooo.append($button);
+                play($wooo.attr('id') === 'wooo_first' ? "female.csd" : "male.csd");
+            }
         },
         onComplete: (survey) => {
-            console.log(JSON.stringify(survey.data)); // todo process
+            saveSurveyData(getSurveyData().entries.push(survey.data));
         }
     });
 </script>
