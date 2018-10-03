@@ -14,9 +14,22 @@
     <script src="js/survey.jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/survey.js"></script>
+    <style type="text/css">
+        .sg-slider {
+            width: 100%;
+        }
+
+        .sg-button {
+            padding: 10px;
+            float: right;
+        }
+    </style>
 </head>
 <body>
-<div id="surveyContainer"></div>
+<div class="container">
+    <div id="surveyContainer"></div>
+</div>
+
 <script type="application/javascript">
     let filesNeeded = 0, filesLoaded = 0, waitForFile = (file) => {
         filesNeeded++;
@@ -44,7 +57,7 @@
     }
 
     function getSurveyData() {
-        return JSON.parse(window.localStorage.sgSurveyData) || {'entries': []}
+        return JSON.parse(window.localStorage.sgSurveyData || '""') || {'entries': []}
     }
 
     function saveSurveyData(surveyData) {
@@ -60,12 +73,12 @@
             csound && csound.Csound && csound.stop();
             let $wooo = $('#wooo_first, #wooo_second');
             if ($wooo.length) {
-                let $input = $('<input type="range" min="1" max="100"/>');
+                let $input = $('<input class="sg-slider" type="range" min="1" max="100"/>');
                 $input[0].oninput = _.debounce(() => {
                     console.log($input.val()); // todo call csound and update distance
                 }, 50, {leading: true, trailing: true});
                 $wooo.append($input);
-                let $button = $('<div><button>submit</button></div>');
+                let $button = $('<div><button class="btn-primary sg-button">submit</button></div>');
                 $button.click(() => {
                     survey.nextPage();
                 });
