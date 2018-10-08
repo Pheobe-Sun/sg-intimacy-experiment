@@ -99,6 +99,5 @@ var surveyJSON = {
                         html:"<div id='visualisation'><svg id='sg-circles' width='300' height='300'>" +
                             "</svg></div>"}]}],
 
-
     showNavigationButtons:true,showQuestionNumbers:"off",
     showProgressBar:"off",goNextPageAutomatic:true}
