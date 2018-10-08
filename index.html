@@ -5,16 +5,45 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Pheobe's awesome survey</title>
+    <title>Your Personal Space</title>
 
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <script src="js/csound.js"></script>
+    <!--<script src="js/libcsound.js"></script>-->
     <script src="js/lodash.min.js"></script>
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/survey.jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/d3.v3.min.js"></script>>
     <script type="text/javascript" src="js/survey.js"></script>
+
     <style type="text/css">
+        /* hide headings */
+        #sg .panel-heading {
+            display: none;
+            visibility: hidden;
+        }
+
+        #surveyContainer {
+            margin: auto;
+            width: 55%;
+            padding: 100px 0;
+            font-size: 18px;
+        }
+
+        .sg-instruct {
+            padding: 50px 8px;
+        }
+
+        .sg-smallprint {
+            font-size: 16px;
+        }
+
+        .sg-prep {
+            font-size: 21px;
+            /*TODO colour coding & font design for instructive notes*/
+        }
+
         .sg-slider {
             width: 100%;
         }
@@ -23,10 +52,18 @@
             padding: 10px;
             float: right;
         }
+
+        .reset-button {
+            margin: 10px;
+            float: right;
+        }
     </style>
 </head>
 <body>
-<div class="container">
+<div class="container" id="sg">
+    <div>
+        <button class="btn-primary reset-button">reset</button>
+    </div>
     <div id="surveyContainer"></div>
 </div>
 
@@ -66,16 +103,59 @@
 
     Survey.Survey.cssType = "bootstrap";
 
+    let lastMoved = new Date().getTime();
+    $(document).mousemove(() => {
+        lastMoved = new Date().getTime();
+    });
+    let resetInterval;
+    const resetSurvey = () => {
+        resetInterval = resetInterval && clearInterval(resetInterval);
+        console.log('survey reset', new Date());
+        survey.clear();
+        survey.render();
+    };
+
+
+    //var canvasWidth = mainCanvas.width;
+    //var canvasHeight = mainCanvas.height;
+    // function drawCircles(distance,distribution) {
+    //     var s = Snap();
+    //     var largeCircle = s.circle(50, 50, distance); // variable
+    //     largeCircle.attr({
+    //         fill: "white"
+    //     stroke: "black"
+    //     strokeWidth: distribution // variable
+    //     });
+    //     largeCircle.animate({
+    //         r: 150
+    //     }, 2000, mina.easein);
+    // }
+    let indi_dist;
+
     let survey = new Survey.Model(surveyJSON);
+    $('.reset-button').click(resetSurvey);
     $("#surveyContainer").Survey({
         model: survey,
         onAfterRenderPage: () => {
+            if (survey.currentPageNo === 1) {
+                console.log('timer start', new Date());
+                resetInterval = setInterval(() => {
+                    if ((new Date().getTime() - lastMoved) / 1000 > 60) {
+                        resetSurvey();
+                    }
+                }, 1000);
+            }
             csound && csound.Csound && csound.stop();
             let $wooo = $('#wooo_first, #wooo_second');
             if ($wooo.length) {
-                let $input = $('<input class="sg-slider" type="range" min="1" max="100"/>');
+                let $input = $('<input class="sg-slider" id="input_distance" type="range" min="1" max="100" step="1"/>');
                 $input[0].oninput = _.debounce(() => {
                     console.log($input.val()); // todo call csound and update distance
+                    //document.getElementById("input_distance").addEventListeners("input",SetDistance);
+                    //document.addEventListeners("input",SetDistance);
+                    csound.setControlChannel('kdistance', $input.val());
+                    indi_dist = $inpus.value();
+                    //console.log('equivalent distance: '+ $input.val());
                 }, 50, {leading: true, trailing: true});
                 $wooo.append($input);
                 let $button = $('<div><button class="btn-primary sg-button">submit</button></div>');
@@ -85,8 +165,14 @@
                 $wooo.append($button);
                 play($wooo.attr('id') === 'wooo_first' ? "female.csd" : "male.csd");
             }
+            // var svg = d3.select("svg");git
+            // var circle = svg.selectALL("circle"); //todo draw circle(s) for popu and indi
+            /
+            }
+
         },
         onComplete: (survey) => {
+            // todo save partial data after wooo
             let surveyData = getSurveyData();
             surveyData.entries.push(survey.data)
             saveSurveyData(surveyData);

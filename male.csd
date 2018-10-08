@@ -12,11 +12,13 @@ nchnls = 2
 ;schedule 1,0,120
 
 instr 1
-kd chnget "kd" ; 10cm-500cm
+kdistance chnget "kdistance" ; 10cm-500cm
 
 ;kscl scale kinput, kmax, kmin
-kamp_multi scale kd, 0, 1
-kamp_multi = 0.8
+;kamp_multi scale kdistance, 0, 1
+kamp_multi = (100-kdistance)/100
+
+
 
 ; **************** Speaker Effect *********************************************************
 ;    diskin  ifilcod    [, kpitch[, iskiptim \ [, iwraparound[, iformat[, iskipinit]]]]]
