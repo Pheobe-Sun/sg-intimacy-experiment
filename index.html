@@ -115,22 +115,7 @@
         survey.render();
     };
 
-
-    //var canvasWidth = mainCanvas.width;
-    //var canvasHeight = mainCanvas.height;
-    // function drawCircles(distance,distribution) {
-    //     var s = Snap();
-    //     var largeCircle = s.circle(50, 50, distance); // variable
-    //     largeCircle.attr({
-    //         fill: "white"
-    //     stroke: "black"
-    //     strokeWidth: distribution // variable
-    //     });
-    //     largeCircle.animate({
-    //         r: 150
-    //     }, 2000, mina.easein);
-    // }
-    let indi_dist;
+    //let indi_dist;
 
     let survey = new Survey.Model(surveyJSON);
     $('.reset-button').click(resetSurvey);
@@ -166,10 +151,7 @@
                 play($wooo.attr('id') === 'wooo_first' ? "female.csd" : "male.csd");
             }
             // var svg = d3.select("svg");git
-            // var circle = svg.selectALL("circle"); //todo draw circle(s) for popu and indi
-            /
-            }
-
+            // var circle = svg.selectALL("circle");
         },
         onComplete: (survey) => {
             // todo save partial data after wooo
