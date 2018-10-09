@@ -14,7 +14,7 @@
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/survey.jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <script src="js/d3.v3.min.js"></script>>
+    <script src="js/d3.v3.min.js"></script>
     <script type="text/javascript" src="js/survey.js"></script>
 
     <style type="text/css">
@@ -24,6 +24,25 @@
             visibility: hidden;
         }
 
+        #sg .form-inline.checkbox input {
+            position: absolute;
+            top: -9999px;
+            left: -9999px;
+        }
+
+        #sg .form-inline.checkbox label, #sg .sv_next_btn, #sg .sv_prev_btn {
+            display: inline-block;
+            border-style: solid;
+            border-width: 1px;
+            padding: 1px 7px 2px;
+            color: #fff;
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        #sg #visualisation {
+            margin: auto;
+            width: 50%;
+        }
         #surveyContainer {
             margin: auto;
             width: 55%;
@@ -115,43 +134,61 @@
         survey.render();
     };
 
-    //let indi_dist;
+    let indi_dist;
 
     let survey = new Survey.Model(surveyJSON);
     $('.reset-button').click(resetSurvey);
     $("#surveyContainer").Survey({
         model: survey,
         onAfterRenderPage: () => {
-            if (survey.currentPageNo === 1) {
-                console.log('timer start', new Date());
-                resetInterval = setInterval(() => {
-                    if ((new Date().getTime() - lastMoved) / 1000 > 60) {
-                        resetSurvey();
-                    }
-                }, 1000);
+            try { // like my mom ;  used to be like my dad (now is much more tolerant :P)
+                if (survey.currentPageNo === 1) {
+                    console.log('timer start', new Date());
+                    resetInterval = setInterval(() => {
+                        if ((new Date().getTime() - lastMoved) / 1000 > 60) {
+                            resetSurvey();
+                        }
+                    }, 1000);
+                }
+                csound && csound.Csound && csound.stop();
+                let $wooo = $('#wooo_first, #wooo_second');
+                if ($wooo.length) {
+                    let $input = $('<input class="sg-slider" id="input_distance" type="range" min="1" max="100" step="1"/>');
+                    $input[0].oninput = _.debounce(() => {
+                        console.log($input.val()); // todo call csound and update distance
+                        //document.getElementById("input_distance").addEventListeners("input",SetDistance);
+                        //document.addEventListeners("input",SetDistance);
+                        csound.setControlChannel('kdistance', $input.val());
+                        indi_dist = $input.value();
+                        //console.log('equivalent distance: '+ $input.val());
+                    }, 50, {leading: true, trailing: true});
+                    $wooo.append($input);
+                    play($wooo.attr('id') === 'wooo_first' ? "female.csd" : "male.csd");
+                    // let $button = $('<div><button class="btn-primary sg-button">submit</button></div>');
+                    // $button.click(() => {
+                    //     survey.nextPage();
+                    // });
+                    // $wooo.append($button);
+                }
+                var pop_diam = 80;
+                var pop_sd = 8;
+                indi_dist = 77;
+
+                var svg = d3.select("svg");
+                svg.select(".pop_circle").data([pop_diam, pop_sd])
+                    //.style("fill", "yellow")
+                    //.style("stroke", "rgb(255, 0, 0)")
+                    .style("stroke-width",pop_sd)
+                    //.attr("cx", width/2)
+                    //.attr("cy", height/2)
+                    .attr("r", pop_diam);
+                svg.select(".indi_circle").data([indi_dist])
+                //.style("fill", "yellow")
+                //.style("stroke", "rgb(255, 0, 0)")
+                    .attr("r",indi_dist)
+            } catch (e) {
+                console.error(e);
             }
-            csound && csound.Csound && csound.stop();
-            let $wooo = $('#wooo_first, #wooo_second');
-            if ($wooo.length) {
-                let $input = $('<input class="sg-slider" id="input_distance" type="range" min="1" max="100" step="1"/>');
-                $input[0].oninput = _.debounce(() => {
-                    console.log($input.val()); // todo call csound and update distance
-                    //document.getElementById("input_distance").addEventListeners("input",SetDistance);
-                    //document.addEventListeners("input",SetDistance);
-                    csound.setControlChannel('kdistance', $input.val());
-                    //indi_dist = $input.value();
-                    //console.log('equivalent distance: '+ $input.val());
-                }, 50, {leading: true, trailing: true});
-                $wooo.append($input);
-                let $button = $('<div><button class="btn-primary sg-button">submit</button></div>');
-                $button.click(() => {
-                    survey.nextPage();
-                });
-                $wooo.append($button);
-                play($wooo.attr('id') === 'wooo_first' ? "female.csd" : "male.csd");
-            }
-            // var svg = d3.select("svg");git
-            // var circle = svg.selectALL("circle");
         },
         onComplete: (survey) => {
             // todo save partial data after wooo
