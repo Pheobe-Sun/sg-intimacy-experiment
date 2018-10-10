@@ -1,6 +1,6 @@
 var surveyJSON = {
     title: "Your Personal Space",
-    completedHtml: "<div id='complete' class='sg-instruct sg-end'><p>Thank you for your participation.</p></div>",
+    completedHtml: "Press RESET to begin.",
     pages: [
         {
             name: "short consent",
@@ -173,12 +173,20 @@ var surveyJSON = {
                 {
                     type: "html",
                     name: "Circles Visualisation",
-                    html: "<div id='visualisation'><svg class='sg-circles' width='300' height='300'>" +
-                        "<g fill='none' stroke='yellow' stroke-width='8'>" +
-                        "<circle class='pop_circle' cx='width/2' cy='height/2' r='50'></circle></g>" +
-                        "<g fill='none' stroke='blue' stroke-width='4'>" +
-                        "<circle class='indi_circle' cx='width/2' cy='height/2' r='30'></circle></g></svg></div>"
-                }]
+                    html: "<div id='visualisation'><svg id='sg-circles' class='sg-circles'>" +
+                        "<g fill='none' stroke='yellow' stroke-width='10'>" +
+                        "<circle class='pop_circle' cx='150' cy='150' r='50'></circle></g>" +
+                        "<g fill='none' stroke='blue' stroke-width='2'>" +
+                        "<circle class='indi_circle' cx='150' cy='150' r='30'></circle></g></svg><svg id='sg-text' ></svg></div>"
+                },
+                {
+                    type: "boolean",
+                    name: "Finish",
+                    //isRequired:true,
+                    titleLocation: "hidden",
+                    label: "Finish"
+                }
+                ]
         }],
 
     showNavigationButtons: true, showQuestionNumbers: "off",

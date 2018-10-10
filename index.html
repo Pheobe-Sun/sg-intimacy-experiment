@@ -15,6 +15,7 @@
     <script src="js/survey.jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/d3.v3.min.js"></script>
+    <script src="js/vivus.min.js"></script>
     <script type="text/javascript" src="js/survey.js"></script>
 
     <style type="text/css">
@@ -39,10 +40,7 @@
             background-color: #007bff;
             border-color: #007bff;
         }
-        #sg #visualisation {
-            margin: auto;
-            width: 50%;
-        }
+
         #surveyContainer {
             margin: auto;
             width: 55%;
@@ -50,18 +48,33 @@
             font-size: 18px;
         }
 
+        #visualisation, #sg .sg-circles, #sg g  {
+            margin: auto;
+            width: 100%;
+            position: relative;
+            overflow: visible;
+            background: url("data/img/YPS-text-withoutbackground.svg") no-repeat no-repeat;
+        }
+
+        #sg .sg-circles.pop_circles, #sg .sg-circles.indi_circles {
+            overflow: visible;
+            align-items: center;
+            padding: 5px;
+        }
+
+
         .sg-instruct {
             padding: 50px 8px;
         }
 
-        .sg-smallprint {
-            font-size: 16px;
-        }
+        /*.sg-smallprint {*/
+            /*font-size: 16px;*/
+        /*}*/
 
-        .sg-prep {
-            font-size: 21px;
-            /*TODO colour coding & font design for instructive notes*/
-        }
+        /*.sg-prep {*/
+            /*font-size: 21px;*/
+            /*!*TODO colour coding & font design for instructive notes*!*/
+        /*}*/
 
         .sg-slider {
             width: 100%;
@@ -87,6 +100,8 @@
 </div>
 
 <script type="application/javascript">
+    //import * as d3 from "./js/d3.v3.min";
+
     let filesNeeded = 0, filesLoaded = 0, waitForFile = (file) => {
         filesNeeded++;
         let url = window.location.href.split('/').slice(0, -1).join('/') + '/data/' + file;
@@ -159,7 +174,7 @@
                         //document.getElementById("input_distance").addEventListeners("input",SetDistance);
                         //document.addEventListeners("input",SetDistance);
                         csound.setControlChannel('kdistance', $input.val());
-                        indi_dist = $input.value();
+                        // indi_dist = $input.value();
                         //console.log('equivalent distance: '+ $input.val());
                     }, 50, {leading: true, trailing: true});
                     $wooo.append($input);
@@ -170,22 +185,22 @@
                     // });
                     // $wooo.append($button);
                 }
+
                 var pop_diam = 80;
                 var pop_sd = 8;
                 indi_dist = 77;
 
-                var svg = d3.select("svg");
-                svg.select(".pop_circle").data([pop_diam, pop_sd])
-                    //.style("fill", "yellow")
-                    //.style("stroke", "rgb(255, 0, 0)")
-                    .style("stroke-width",pop_sd)
-                    //.attr("cx", width/2)
-                    //.attr("cy", height/2)
-                    .attr("r", pop_diam);
-                svg.select(".indi_circle").data([indi_dist])
-                //.style("fill", "yellow")
-                //.style("stroke", "rgb(255, 0, 0)")
-                    .attr("r",indi_dist)
+                new Vivus('sg-circles', {type: 'delayed', start: 'autostart', duration: 90}, drawCircles());
+                function drawCircles()
+                {
+                    var svg = d3.select("svg");
+                    svg.select(".pop_circle").data([pop_diam, pop_sd])
+                        .style("stroke-width", pop_sd * 1.5)
+                        .attr("r", pop_diam * 2);
+                    svg.select(".indi_circle").data([indi_dist])
+                        .attr("r", indi_dist * 2);
+                }
+
             } catch (e) {
                 console.error(e);
             }
