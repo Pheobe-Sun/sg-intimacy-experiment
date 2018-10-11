@@ -1,6 +1,6 @@
 var surveyJSON = {
     title: "Your Personal Space",
-    completedHtml: "Press RESET to begin.",
+    completedHtml: "Thanks for your participation. Press RESET to begin.",
     pages: [
         {
             name: "short consent",
@@ -8,17 +8,17 @@ var surveyJSON = {
                 {
                     type: "html",
                     name: "Experiment Explanation",
-                    html: "<div id='intro' class='sg-instruct'><p>This is a social experiment investigating the perception of personal space. " +
+                    html: "<div id='intro'><p><strong>Your Personal Space</strong></p>" +
+                        "<p class='sg-instruct'>This is a social experiment. It investigates the perception of personal space. " +
                         "Your decisions in the game will be collected as part of the research.</p> " +
-                        "<p>If you agree to proceed, tick the consent box below. </p>" +
-                        "<p class='sg-smallprint'>*You will have to be above 13 years old to give us the consent to collect your responses. </p></div>"
+                        "<p><br>You will have to be above 13 years old to give us the consent to collect your responses.</p></div>"
                 },
                 {
                     type: "boolean",
                     name: "Age Check",
                     //isRequired:true,
                     titleLocation: "hidden",
-                    label: " Hereby I confirm to participate in this research."
+                    label: " Hereby I confirm to participate in this research. "
                 }]
         },
 
@@ -28,8 +28,10 @@ var surveyJSON = {
                 {
                     type: "html",
                     name: "preparation",
-                    html: "<div id='preparation' class='sg-instruct'><img class='sg-img' src='data/img/headphone.jpg' alt='headphone' width=\"300\"><p class='sg-prep'> Now put on the headphone.</p> " +
-                        "<p class='sg-smallprint'>Tick the box when you are ready.</p></div>"
+                    html: "<div id='preparation' class='sg-instruct'>" +
+                        "<img class='sg-icon' src='data/img/headphones.svg' height='100' alt='headphones'/>"+
+                        "<p class='sg-instruct'> Now put on the headphones.</p></div>" +
+                        "<!--<p class='sg-smallprint'>Tick the box when you are ready.</p></div>-->"
                 },
                 {
                     type: "boolean",
@@ -46,9 +48,9 @@ var surveyJSON = {
                 {
                     type: "html",
                     name: "Instruction",
-                    html: "<div id='experiment1' class='sg-instruct'><p><strong>Experiment 1 of 2</strong>" +
-                        "<br><em>Imagine a female acquaintance is talking to you.</em>" +
-                        "<p>Use the slider to change the distance of the acquaintance. " +
+                    html: "<div id='experiment1'><p class='sg-title'><strong>Experiment 1 of 2</strong></p>" +
+                        "<p><em>Imagine a female acquaintance is talking to you.</em></p>" +
+                        "<p class='sg-instruct'><br>Use the slider to change the distance of the acquaintance. " +
                         "<br>Click the 'submit' button when you have placed the acquaintance at your most comfortable position.</p></div> "
                 },
                 {
@@ -72,9 +74,9 @@ var surveyJSON = {
                 {
                     type: "html",
                     name: "Instruction",
-                    html: "<div id='experiment2' class='sg-instruct'><p><strong>Experiment 2 of 2</strong>" +
-                        "<br><em>Imagine a male acquaintance is talking to you.</em> " +
-                        "<p>Use the slider to change the distance of the acquaintance. " +
+                    html: "<div id='experiment2'><p class='sg-title'><strong>Experiment 2 of 2</strong></p>" +
+                        "<p><em>Imagine a male acquaintance is talking to you.</em></p> " +
+                        "<p  class='sg-instruct'><br>Use the slider to change the distance of the acquaintance. " +
                         "<br>Click on 'submit' when you have placed the acquaintance at your most comfortable position.</p></div>"
                 },
                 {
@@ -98,9 +100,9 @@ var surveyJSON = {
                 {
                     type: "html",
                     name: "Survey Explanation",
-                    html: "<div id='survey' class='sg-instruct'>" +
-                        "<p>Quick Survey<strong>optional</strong></p>" +
-                        "<p>You are going to do a 5-question survey telling us your demographic information. " +
+                    html: "<div id='survey'>" +
+                        "<p class='sg-title'><strong>Quick Survey</strong>  <em>optional</em></p>" +
+                        "<p  class='sg-instruct'>You are going to do a 5-question survey telling us your demographic information. " +
                         "Your responses are collected anonymously and will only be used for research purpose.</p></div>"
                 },
                 {
@@ -173,11 +175,23 @@ var surveyJSON = {
                 {
                     type: "html",
                     name: "Circles Visualisation",
-                    html: "<div id='visualisation'><svg id='sg-circles' class='sg-circles'>" +
-                        "<g fill='none' stroke='yellow' stroke-width='10'>" +
-                        "<circle class='pop_circle' cx='150' cy='150' r='50'></circle></g>" +
-                        "<g fill='none' stroke='blue' stroke-width='2'>" +
-                        "<circle class='indi_circle' cx='150' cy='150' r='30'></circle></g></svg><svg id='sg-text' ></svg></div>"
+                    html: "<div id='visualisation'>" +
+                        // todo add arrow
+                        "<svg id='sg-circles' class='sg-circles' viewbox='0 0 350 180'>" +
+                        "<g fill='none' stroke='#FFFDE4' stroke-width='8'>"+
+                        "<circle class='pop_circle1_1' cx='220' cy='150' r='132'></circle></g>" +
+                        "<g fill='none' stroke='#FFFBB1' stroke-width='15'>" +
+                        "<circle class='pop_circle1' cx='220' cy='150' r='140'></circle></g>" +
+                        "<g fill='none' stroke='#FFF218' stroke-width='30'>" +
+                        "<circle class='pop_circle0' cx='220' cy='150' r='160'></circle></g>" +
+                        "<g fill='none' stroke='#FFFBB1' stroke-width='13'>" +
+                        "<circle class='pop_circle2' cx='220' cy='150' r='170'></circle></g>" +
+                        "<g fill='none' stroke='#FFFDE4' stroke-width='6'>" +
+                        "<circle class='pop_circle1_1' cx='220' cy='150' r='175'></circle></g>" +
+                        "<g fill='none' stroke='#1899FF' stroke-width='2'>" +
+                        "<circle class='indi_circle' cx='220' cy='150' r='155'></circle></g>" +
+                        "</svg>" +
+                        "</div>"
                 },
                 {
                     type: "boolean",
@@ -189,6 +203,7 @@ var surveyJSON = {
                 ]
         }],
 
-    showNavigationButtons: true, showQuestionNumbers: "off",
+    showNavigationButtons: true
+    , showQuestionNumbers: "off",
     showProgressBar: "off", goNextPageAutomatic: true
 }
