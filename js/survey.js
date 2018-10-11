@@ -192,18 +192,17 @@ var surveyJSON = {
                         "<circle class='indi_circle' cx='220' cy='150' r='155'></circle></g>" +
                         "</svg>" +
                         "</div>"
-                },
-                {
-                    type: "boolean",
-                    name: "Finish",
-                    //isRequired:true,
-                    titleLocation: "hidden",
-                    label: "Finish"
                 }
+                // {
+                //     type: "boolean",
+                //     name: "Finish",
+                //     //isRequired:true,
+                //     titleLocation: "hidden",
+                //     label: "Finish"
+                // }
                 ]
         }],
 
-    showNavigationButtons: true
-    , showQuestionNumbers: "off",
+    showNavigationButtons: false, showQuestionNumbers: "off",
     showProgressBar: "off", goNextPageAutomatic: true
 }
