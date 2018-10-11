@@ -129,9 +129,9 @@ var surveyJSON = {
                     type: "matrix",
                     name: "Demographic Info 1",
                     title: "Gender",
-                    columns: [{value: "female", text: "Female"}, {value: "male", text: "Male"}, {
+                    columns: [{value: "female", text: "female"}, {value: "male", text: "male"}, {
                         value: "na",
-                        text: "Prefer not to say"
+                        text: "prefer not to say"
                     }],
                     rows: ["Gender"]
                 },
@@ -142,11 +142,17 @@ var surveyJSON = {
                     rows: ["age group"]
                 },
                 {
-                    type: "rating",
+                    type: "matrix",
                     name: "Personality",
-                    minRateDescription: "Introvert",
-                    maxRateDescription: "Extrovert"
+                    columns: ["shy", "in-between", "outgoing"],
+                    rows: ["personality"]
                 },
+                // {
+                //     type: "rating",
+                //     name: "Personality",
+                //     minRateDescription: "Introvert",
+                //     maxRateDescription: "Extrovert"
+                // },
                 {
                     type: "dropdown",
                     name: "question3",
