@@ -126,36 +126,32 @@ var surveyJSON = {
             name: "personal data",
             elements: [
                 {
-                    type: "matrix",
-                    name: "Demographic Info 1",
-                    title: "Gender",
-                    columns: [{value: "female", text: "female"}, {value: "male", text: "male"}, {
-                        value: "na",
-                        text: "prefer not to say"
-                    }],
-                    rows: ["Gender"]
+                    type:"radiogroup",
+                    name:"Q1",
+                    startWithNewLine:true,
+                    title:"Gender",
+                    choices:["female","male","prefer not to say"],
+                    colCount:0
                 },
                 {
-                    type: "matrix",
-                    name: "Age Group",
-                    columns: ["13-19", "20-29", "30-39", "40-49", {value: "50+", text: "above 50"}],
-                    rows: ["age group"]
+                    type:"radiogroup",
+                    name:"Q2",
+                    startWithNewLine:true,
+                    title:"Age Group",
+                    choices:["13-19","20-29","30-39","40-49","above 50"],
+                    colCount:0
                 },
                 {
-                    type: "matrix",
-                    name: "Personality",
-                    columns: ["shy", "in-between", "outgoing"],
-                    rows: ["personality"]
+                    type:"radiogroup",
+                    name:"Q3",
+                    startWithNewLine:true,
+                    title:"Personality",
+                    choices:["shy","in-between","outgoing"],
+                    colCount:0
                 },
-                // {
-                //     type: "rating",
-                //     name: "Personality",
-                //     minRateDescription: "Introvert",
-                //     maxRateDescription: "Extrovert"
-                // },
                 {
                     type: "dropdown",
-                    name: "question3",
+                    name: "Q4",
                     title: "Which continent are you from",
                     choices: [{value: "item1", text: "Europe"},
                         {value: "item6", text: "Africa"},
@@ -164,6 +160,39 @@ var surveyJSON = {
                         {value: "item4", text: "South America"},
                         {value: "item5", text: "Oceanic "}]
                 },
+                // {
+                //     type: "matrix",
+                //     name: "Demographic Info 1",
+                //     title: "Gender",
+                //     columns: [{value: "female", text: "female"}, {value: "male", text: "male"}, {
+                //         value: "na",
+                //         text: "prefer not to say"
+                //     }],
+                //     rows: ["Gender"]
+                // },
+                // {
+                //     type: "matrix",
+                //     name: "Age Group",
+                //     columns: ["13-19", "20-29", "30-39", "40-49", {value: "50+", text: "above 50"}],
+                //     rows: ["age group"]
+                // },
+                // {
+                //     type: "matrix",
+                //     name: "Personality",
+                //     columns: ["shy", "in-between", "outgoing"],
+                //     rows: ["personality"]
+                // },
+                // {
+                //     type: "dropdown",
+                //     name: "question3",
+                //     title: "Which continent are you from",
+                //     choices: [{value: "item1", text: "Europe"},
+                //         {value: "item6", text: "Africa"},
+                //         {value: "item2", text: "Asia"},
+                //         {value: "item3", text: "North America"},
+                //         {value: "item4", text: "South America"},
+                //         {value: "item5", text: "Oceanic "}]
+                // },
                 {
                     type: "boolean",
                     name: "Submit3",
@@ -195,10 +224,10 @@ var surveyJSON = {
                         "<g fill='none' stroke='#FFFDE4' stroke-width='6'>" +
                         "<circle class='pop_circle1_1' cx='220' cy='150' r='175'></circle></g>" +
                         "<g fill='none' stroke='#1899FF' stroke-width='2'>" +
-                        "<circle class='indi_circle' cx='220' cy='150' r='155'></circle></g>" +
+                        "<circle data-delay='240' class='indi_circle' cx='220' cy='150' r='155'></circle></g>" +
                         "</svg>" +
                         "</div>"
-                }
+                },
                 // {
                 //     type: "boolean",
                 //     name: "Finish",

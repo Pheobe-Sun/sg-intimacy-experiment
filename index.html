@@ -25,10 +25,23 @@
             display: none;
             visibility: hidden;
         }
-        h5.sg-qstn {}
-        /*#sg koCss().title {*/
-            /*display: none;*/
-                   /*}*/
+
+        #sg #sq_113 .radio span, #sg #sq_114 .radio span, #sq_115 .radio span {
+            font-weight: 100;
+            /*line-height: 1;*/
+            font-size: 18px;
+        }
+
+        /*#sg .table thead th {*/
+            /*vertical-align: bottom;*/
+            /*border-bottom: 1px;*/
+        /*}*/
+        /*#sg .table td, .table th {*/
+            /*padding: 0em;*/
+            /*vertical-align: top;*/
+            /*border-top: 1px;*/
+        /*}*/
+
         #sg .form-inline.checkbox input {
             position: absolute;
             top: -9999px;
@@ -65,7 +78,7 @@
             background-color: #808080;
         }
 
-        body.vsc-initialized, #sg p, h5, body {
+        #sg p, h5, body {
             color: #FFFFFD;
             background-color: #808080;
             /*color: #FFFEE6;*/
@@ -221,7 +234,7 @@
                 indi_dist = 80;
                 var indi_diam = indi_dist / 100 * 180;
 
-                new Vivus('sg-circles', {type: 'delayed', start: 'autostart', duration: 150}, drawCircles());
+                new Vivus('sg-circles', {type: 'delayed', start: 'autostart', duration: 250, animTimingFunction: Vivus.EASE_IN}, drawCircles());
                 function drawCircles()
                 {
                     var svg = d3.select("svg");
