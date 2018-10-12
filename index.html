@@ -33,20 +33,20 @@
         }
 
         /*#sg .table thead th {*/
-            /*vertical-align: bottom;*/
-            /*border-bottom: 1px;*/
+        /*vertical-align: bottom;*/
+        /*border-bottom: 1px;*/
         /*}*/
         /*#sg .table td, .table th {*/
-            /*padding: 0em;*/
-            /*vertical-align: top;*/
-            /*border-top: 1px;*/
+        /*padding: 0em;*/
+        /*vertical-align: top;*/
+        /*border-top: 1px;*/
         /*}*/
 
         #sg .form-inline.checkbox input {
             position: absolute;
             top: -9999px;
             left: -9999px;
-            float:bottom;
+            float: bottom;
         }
 
         #sg .form-inline.checkbox label, #sg .sv_next_btn, #sg .sv_prev_btn {
@@ -58,17 +58,19 @@
             border-width: 2px;
             padding: 1px 7px 2px;
             color: #444000;
-            background-color: #FFF218;
-            border-color: #FFF218;
+            background-color: #c7ba16;
+            border-color: #c7ba16;
             border-radius: 2px;
             float: bottom;
             /*color: #fff;*/
             /*background-color: #007bff;*/
             /*border-color: #007bff;*/
         }
+
         .vsc-initialized, #sg {
             background-color: #808080;
         }
+
         #surveyContainer {
             margin: auto;
             width: 70%;
@@ -84,34 +86,26 @@
             /*color: #FFFEE6;*/
         }
 
-        #visualisation, #sg .sg-circles, #sg g  {
+        #visualisation, #sg .sg-circles, #sg g {
             margin: auto;
             width: 100%;
             position: relative;
             overflow: visible;
         }
+
         #sg svg.sg-icon {
             display: inline;
         }
+
         #sg .sg-circles.pop_circles, #sg .sg-circles.indi_circles {
             overflow: visible;
             align-items: center;
             padding: 5px;
         }
 
-
         .sg-instruct {
             padding: 50px 0px;
         }
-
-        /*.sg-smallprint {*/
-            /*font-size: 16px;*/
-        /*}*/
-
-        /*.sg-prep {*/
-            /*font-size: 21px;*/
-            /*!*TODO colour coding & font design for instructive notes*!*/
-        /*}*/
 
         .sg-slider {
             width: 100%;
@@ -127,10 +121,49 @@
             margin: 50px;
             float: right;
             color: #444000;
-            background-color: #FFF218;
-            border-color: #FFF218;
+            background-color: #c7ba16;
+            border-color: #c7ba16;
             border-radius: 2px;
 
+        }
+
+        #sg h5, #sg strong {
+            color: #c7ba16;
+        }
+
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            margin: 13.8px 0;
+        }
+
+        input[type=range]:focus {
+            outline: none;
+        }
+
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 8.4px;
+            cursor: pointer;
+            background: #FFFFFD;
+            border: 0.2px solid #FFFFFD;
+            border-radius: 1.3px;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            box-shadow: 1px 1px 1px #c7ba16, 0px 0px 1px #c7ba16;
+            border: 1px solid #c7ba16;
+            height: 36px;
+            width: 16px;
+            border-radius: 3px;
+            background: #c7ba16;
+            cursor: pointer;
+            -webkit-appearance: none;
+            margin-top: -14px;
+        }
+
+        input[type=range]:focus::-webkit-slider-runnable-track {
+            background: #FFFFFD;
         }
     </style>
 </head>
@@ -164,8 +197,8 @@
 
     function moduleDidLoad() {
         waitForFile('dialogue_female.wav');
-        waitForFile('dialogue_male.wav');
-        waitForFile('back_normal.wav');
+        waitForFile('dialogue_male_2.wav');
+        waitForFile('back_normal_2.wav');
         waitForFile('hrtf-44100-left.dat');
         waitForFile('hrtf-44100-right.dat');
     }
@@ -192,7 +225,7 @@
         survey.render();
     };
 
-    let indi_dist;
+    let indi_dist = [0, 0];
 
     let survey = new Survey.Model(surveyJSON);
     $('.reset-button').click(resetSurvey);
@@ -209,19 +242,23 @@
                     }, 1000);
                 }
                 csound && csound.Csound && csound.stop();
-                let $wooo = $('#wooo_first, #wooo_second');
+                let $wooo = $('#wooo_first, #wooo_second'); // wooo is a word! and it means 'wooo'!!!!
                 if ($wooo.length) {
-                    let $input = $('<input class="sg-slider" id="input_distance" type="range" min="1" max="100" step="1"/>');
+                    let isFirst = $wooo.attr('id') === 'wooo_first';
+                    let $input = $('<input class="sg-slider" id="input_distance" type="range" min="1" max="100" step="1" value="2"/>');
                     $input[0].oninput = _.debounce(() => {
-                        console.log($input.val()); // todo call csound and update distance
-                        //document.getElementById("input_distance").addEventListeners("input",SetDistance);
-                        //document.addEventListeners("input",SetDistance);
+                        console.log($input.val());
                         csound.setControlChannel('kdistance', $input.val());
-                        // indi_dist = $input.value();
+                        // if(isFirst) {
+                        //     indi_dist[0] = $input.value();
+                        // } else {
+                        //     indi_dist[1] = $input.value();
+                        // }
+                        indi_dist[isFirst ? 0 : 1] = +$input.val();
                         //console.log('equivalent distance: '+ $input.val());
                     }, 50, {leading: true, trailing: true});
                     $wooo.append($input);
-                    play($wooo.attr('id') === 'wooo_first' ? "female.csd" : "male.csd");
+                    play(isFirst ? "female.csd" : "male.csd");
                     // let $button = $('<div><button class="btn-primary sg-button">submit</button></div>');
                     // $button.click(() => {
                     //     survey.nextPage();
@@ -229,25 +266,22 @@
                     // $wooo.append($button);
                 }
 
-                var pop_diam = 80;
-                var pop_sd = 8;
-                indi_dist = 80;
-                var indi_diam = indi_dist / 100 * 180;
+                var indi_diam = _.sum(indi_dist) / 10 * 9; // / 2 / 100 * 180
 
-                new Vivus('sg-circles', {type: 'delayed', start: 'autostart', duration: 250, animTimingFunction: Vivus.EASE_IN}, drawCircles());
-                function drawCircles()
-                {
-                    var svg = d3.select("svg");
-                    // svg.select(".pop_circle1").data([pop_diam, pop_sd])
-                    //     .style("stroke-width", pop_sd * 7)
-                    //     .attr("r", pop_diam * 2);
-                    // svg.select(".pop_circle2").data([pop_diam, pop_sd])
-                    //     .style("stroke-width", pop_sd * 7)
-                    //     .attr("r", pop_diam * 2);
-                    svg.select(".indi_circle").data([indi_diam])
-                        .attr("r", indi_diam);
+                try {
+                    new Vivus('sg-circles', {
+                        type: 'delayed',
+                        start: 'autostart',
+                        duration: 250,
+                        animTimingFunction: Vivus.EASE_IN
+                    }, () => {
+                        d3.select("svg")
+                            .select(".indi_circle")
+                            .data([indi_diam])
+                            .attr("r", indi_diam);
+                    });
+                } catch (e) {
                 }
-
             } catch (e) {
                 console.error(e);
             }

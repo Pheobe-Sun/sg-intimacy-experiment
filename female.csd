@@ -15,7 +15,7 @@ instr 1
 kdistance chnget "kdistance" ; 10cm-500cm
 
 ;kscl scale kinput, kmax, kmin
-;kamp_multi scale kdistance, 0, 1
+;kamp_multi scale kdistance, 0.2, 1.2
 kamp_multi = (100-kdistance)/100
 ;kamp_multi = 0.8
 
@@ -29,13 +29,13 @@ aearlyl,aearlyr, irt60low, irt60high, imfp hrtfearly asig, kamp_multi, 0, 0, 5, 
    ;later reverb, uses outputs from above
 arevl, arevr, idel hrtfreverb asig, irt60low, irt60high, "hrtf-44100-left.dat", "hrtf-44100-right.dat", 44100, imfp
    ;delayed and scaled
-alatel delay arevl * .1, idel
-alater delay arevr * .1, idel
+alatel delay arevl * .08, idel
+alater delay arevr * .08, idel
 ;outs	aearlyl + alatel, aearlyr + alater
 ;**********************************************************************************************
 
 ; **************** Background Effect *********************************************************
-aback_l, aback_r diskin2 "back_normal.wav", 1, 0, 1
+aback_l, aback_r diskin2 "back_normal_2.wav", 1, 0, 1
    ;later reverb, uses outputs from above
 abrevl, abrevr, idel hrtfreverb aback_l, irt60low, irt60high, "hrtf-44100-left.dat", "hrtf-44100-right.dat", 44100, imfp
 ablatel delay abrevl * .05, idel

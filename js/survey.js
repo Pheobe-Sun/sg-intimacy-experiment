@@ -212,7 +212,7 @@ var surveyJSON = {
                     name: "Circles Visualisation",
                     html: "<div id='visualisation'>" +
                         // todo add arrow
-                        "<svg id='sg-circles' class='sg-circles' viewbox='0 0 350 180'>" +
+                        "<svg id='sg-circles' class='sg-circles' viewbox='0 0 420 250'>" +
                         "<g fill='none' stroke='#FFFDE4' stroke-width='8'>"+
                         "<circle class='pop_circle1_1' cx='220' cy='150' r='132'></circle></g>" +
                         "<g fill='none' stroke='#FFFBB1' stroke-width='15'>" +
