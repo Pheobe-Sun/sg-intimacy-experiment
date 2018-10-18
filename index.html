@@ -49,6 +49,10 @@
             float: bottom;
         }
 
+        #sg label, #sg button, #sg select {
+            cursor: pointer;
+        }
+
         #sg .form-inline.checkbox label, #sg .sv_next_btn, #sg .sv_prev_btn {
             position: relative;
             left: 0;
@@ -62,9 +66,16 @@
             border-color: #c7ba16;
             border-radius: 2px;
             float: bottom;
+            cursor: pointer;
             /*color: #fff;*/
             /*background-color: #007bff;*/
             /*border-color: #007bff;*/
+        }
+
+        #sg .form-inline.checkbox label:active, #sg .sv_next_btn:active, #sg .sv_prev_btn:active {
+            color: #fff;
+            background-color: #0069d9;
+            border-color: #0062cc;
         }
 
         .vsc-initialized, #sg {
@@ -176,8 +187,6 @@
 </div>
 
 <script type="application/javascript">
-    //import * as d3 from "./js/d3.v3.min";
-
     let filesNeeded = 0, filesLoaded = 0, waitForFile = (file) => {
         filesNeeded++;
         let url = window.location.href.split('/').slice(0, -1).join('/') + '/data/' + file;
@@ -218,14 +227,13 @@
         lastMoved = new Date().getTime();
     });
     let resetInterval;
+    let indi_dist;
     const resetSurvey = () => {
         resetInterval = resetInterval && clearInterval(resetInterval);
         console.log('survey reset', new Date());
         survey.clear();
         survey.render();
     };
-
-    let indi_dist = [0, 0];
 
     let survey = new Survey.Model(surveyJSON);
     $('.reset-button').click(resetSurvey);
@@ -234,6 +242,7 @@
         onAfterRenderPage: () => {
             try { // like my mom ;  used to be like my dad (now is much more tolerant :P)
                 if (survey.currentPageNo === 1) {
+                    indi_dist = [2, 2];
                     console.log('timer start', new Date());
                     resetInterval = setInterval(() => {
                         if ((new Date().getTime() - lastMoved) / 1000 > 60) {
@@ -245,7 +254,8 @@
                 let $wooo = $('#wooo_first, #wooo_second'); // wooo is a word! and it means 'wooo'!!!!
                 if ($wooo.length) {
                     let isFirst = $wooo.attr('id') === 'wooo_first';
-                    let $input = $('<input class="sg-slider" id="input_distance" type="range" min="1" max="100" step="1" value="2"/>');
+                    let $input = $('<input class="sg-slider" id="input_distance" type="range" min="1" max="100" step="1" value="'
+                        + indi_dist[isFirst ? 0 : 1] + '"/>');
                     $input[0].oninput = _.debounce(() => {
                         console.log($input.val());
                         csound.setControlChannel('kdistance', $input.val());
@@ -265,23 +275,6 @@
                     // });
                     // $wooo.append($button);
                 }
-
-                var indi_diam = _.sum(indi_dist) / 10 * 9; // / 2 / 100 * 180
-
-                try {
-                    new Vivus('sg-circles', {
-                        type: 'delayed',
-                        start: 'autostart',
-                        duration: 250,
-                        animTimingFunction: Vivus.EASE_IN
-                    }, () => {
-                        d3.select("svg")
-                            .select(".indi_circle")
-                            .data([indi_diam])
-                            .attr("r", indi_diam);
-                    });
-                } catch (e) {
-                }
             } catch (e) {
                 console.error(e);
             }
@@ -289,8 +282,29 @@
         onComplete: (survey) => {
             // todo save partial data after wooo
             let surveyData = getSurveyData();
-            surveyData.entries.push(survey.data)
+            surveyData.entries.push(Object.assign({date: new Date() + '', distances: indi_dist}, survey.data));
             saveSurveyData(surveyData);
+
+            var indi_diam = _.sum(indi_dist) / 40 + 130; // / 2 / 100 * 180
+            // d3.select("svg")
+            d3.select("g.indi_circle circle")
+                // .select("circle:nth-child(6)")
+                // .selectAll(".indi_circle")
+                // .data([indi_diam])
+                .attr("r", indi_diam)
+                //.style('fill', 'orange');
+
+            // try {
+                new Vivus('sg-circles', {
+                    type: 'delayed',
+                    start: 'autostart',
+                    duration: 250,
+                    animTimingFunction: Vivus.EASE_IN
+                }, () => {
+
+                });
+            // } catch (e) {
+            // }
         }
     });
 </script>

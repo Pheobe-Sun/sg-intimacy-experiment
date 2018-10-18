@@ -1,6 +1,22 @@
 var surveyJSON = {
     title: "Your Personal Space",
-    completedHtml: "Thanks for your participation. Press RESET to begin.",
+    completedHtml: "<p id='visualisation'>" +
+        "<p>Thank you!</p>" +
+        "<svg id='sg-circles' class='sg-circles' viewbox='0 0 420 250'>" +
+        "<g fill='none' stroke='#FFFDE4' stroke-width='8'>"+
+        "<circle class='pop_circle1_1' cx='220' cy='150' r='120'></circle></g>" +
+        "<g fill='none' stroke='#FFFBB1' stroke-width='20'>" +
+        "<circle class='pop_circle1' cx='220' cy='150' r='130'></circle></g>" +
+        "<g fill='none' stroke='#FFF218' stroke-width='48'>" +
+        "<circle class='pop_circle0' cx='220' cy='150' r='153'></circle></g>" +
+        "<g fill='none' stroke='#FFFBB1' stroke-width='17'>" +
+        "<circle class='pop_circle2' cx='220' cy='150' r='170'></circle></g>" +
+        "<g fill='none' stroke='#FFFDE4' stroke-width='6'>" +
+        "<circle class='pop_circle1_1' cx='220' cy='150' r='175'></circle></g>" +
+        "<g class='indi_circle' fill='none' stroke='#1899FF' stroke-width='2'>" +
+        "<circle data-delay='240' class='indi_circle' cx='220' cy='150' r='155'></circle></g>" +
+        "</svg>" +
+        "</div>",
     pages: [
         {
             name: "short consent",
@@ -60,7 +76,7 @@ var surveyJSON = {
                 },
                 {
                     type: "boolean",
-                    name: "Submit",
+                    name: "Submit_experiment1",
                     //isRequired:true,
                     titleLocation: "hidden",
                     label: "Submit"
@@ -86,7 +102,7 @@ var surveyJSON = {
                 },
                 {
                     type: "boolean",
-                    name: "Submit1",
+                    name: "Submit_experiment_2",
                     //isRequired:true,
                     titleLocation: "hidden",
                     label: "Submit"
@@ -114,7 +130,7 @@ var surveyJSON = {
                 },
                 {
                     type: "boolean",
-                    name: "Submit2",
+                    name: "Submit_survey_consent",
                     //isRequired:true,
                     titleLocation: "hidden",
                     label: "Submit"
@@ -153,12 +169,12 @@ var surveyJSON = {
                     type: "dropdown",
                     name: "Q4",
                     title: "Which continent are you from",
-                    choices: [{value: "item1", text: "Europe"},
-                        {value: "item6", text: "Africa"},
-                        {value: "item2", text: "Asia"},
-                        {value: "item3", text: "North America"},
-                        {value: "item4", text: "South America"},
-                        {value: "item5", text: "Oceanic "}]
+                    choices: [{value: "europe", text: "Europe"},
+                        {value: "africa", text: "Africa"},
+                        {value: "asia", text: "Asia"},
+                        {value: "northamerica", text: "North America"},
+                        {value: "southamerica", text: "South America"},
+                        {value: "oceanic", text: "Oceanic "}]
                 },
                 // {
                 //     type: "matrix",
@@ -195,47 +211,13 @@ var surveyJSON = {
                 // },
                 {
                     type: "boolean",
-                    name: "Submit3",
+                    name: "Submit_survey",
                     //isRequired:true,
                     titleLocation: "hidden",
                     label: "Submit"
                 }
             ],
             visibleIf: "{Survey Consent} = \"Yes\""
-        },
-
-        {
-            name: "visualisation",
-            elements: [
-                {
-                    type: "html",
-                    name: "Circles Visualisation",
-                    html: "<div id='visualisation'>" +
-                        // todo add arrow
-                        "<svg id='sg-circles' class='sg-circles' viewbox='0 0 420 250'>" +
-                        "<g fill='none' stroke='#FFFDE4' stroke-width='8'>"+
-                        "<circle class='pop_circle1_1' cx='220' cy='150' r='132'></circle></g>" +
-                        "<g fill='none' stroke='#FFFBB1' stroke-width='15'>" +
-                        "<circle class='pop_circle1' cx='220' cy='150' r='140'></circle></g>" +
-                        "<g fill='none' stroke='#FFF218' stroke-width='30'>" +
-                        "<circle class='pop_circle0' cx='220' cy='150' r='160'></circle></g>" +
-                        "<g fill='none' stroke='#FFFBB1' stroke-width='13'>" +
-                        "<circle class='pop_circle2' cx='220' cy='150' r='170'></circle></g>" +
-                        "<g fill='none' stroke='#FFFDE4' stroke-width='6'>" +
-                        "<circle class='pop_circle1_1' cx='220' cy='150' r='175'></circle></g>" +
-                        "<g fill='none' stroke='#1899FF' stroke-width='2'>" +
-                        "<circle data-delay='240' class='indi_circle' cx='220' cy='150' r='155'></circle></g>" +
-                        "</svg>" +
-                        "</div>"
-                },
-                // {
-                //     type: "boolean",
-                //     name: "Finish",
-                //     //isRequired:true,
-                //     titleLocation: "hidden",
-                //     label: "Finish"
-                // }
-                ]
         }],
 
     showNavigationButtons: false, showQuestionNumbers: "off",
