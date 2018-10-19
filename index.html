@@ -231,8 +231,9 @@
     const resetSurvey = () => {
         resetInterval = resetInterval && clearInterval(resetInterval);
         console.log('survey reset', new Date());
-        survey.clear();
-        survey.render();
+        window.location.reload();
+        //survey.clear();
+        //survey.render();
     };
 
     let survey = new Survey.Model(surveyJSON);
