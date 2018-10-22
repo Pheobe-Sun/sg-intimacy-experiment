@@ -1,7 +1,9 @@
 var surveyJSON = {
     title: "Your Personal Space",
     completedHtml: "<p id='visualisation'>" +
-        "<p>Thank you!</p>" +
+        "<p class='sg-thankyou'> Your own personal space " +
+        "is in <font color='#1899FF' >blue</font>. " +
+        "<br> Thanks for your participation! </p>" +
         "<svg id='sg-circles' class='sg-circles' viewbox='0 0 420 250'>" +
         "<g fill='none' stroke='#FFFDE4' stroke-width='8'>"+
         "<circle class='pop_circle1_1' cx='220' cy='150' r='120'></circle></g>" +

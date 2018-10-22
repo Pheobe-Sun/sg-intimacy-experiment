@@ -112,6 +112,14 @@
             overflow: visible;
             align-items: center;
             padding: 5px;
+            z-index: -1;
+        }
+
+        #sg .sg-thankyou {
+            position: fixed;
+            z-index: 1;
+            padding: 2px;
+            background-color: #1d2124;
         }
 
         .sg-instruct {
@@ -286,7 +294,7 @@
             surveyData.entries.push(Object.assign({date: new Date() + '', distances: indi_dist}, survey.data));
             saveSurveyData(surveyData);
 
-            var indi_diam = _.sum(indi_dist) / 40 + 130; // / 2 / 100 * 180
+            var indi_diam = _.sum(indi_dist) / 200 * 40 + 125; // / 2 / 100 * 180
             // d3.select("svg")
             d3.select("g.indi_circle circle")
                 // .select("circle:nth-child(6)")
